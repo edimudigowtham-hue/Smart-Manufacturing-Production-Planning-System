@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="sidebar(activePage)">
+
+    <div class="sidebar">
+        <h4 class="text-center text-white py-3">🏭 Factory</h4>
+
+        <a th:href="@{/}"
+           th:classappend="${activePage == 'dashboard'} ? 'active-link'">🏠 Dashboard</a>
+
+        <a th:href="@{/products-page}"
+           th:classappend="${activePage == 'products'} ? 'active-link'">📦 Products</a>
+
+        <a th:href="@{/orders-page}"
+           th:classappend="${activePage == 'orders'} ? 'active-link'">📋 Orders</a>
+
+        <a th:href="@{/machine-page}"
+           th:classappend="${activePage == 'machines'} ? 'active-link'">⚙️ Machines</a>
+
+        <a th:href="@{/quality-page}"
+           th:classappend="${activePage == 'quality'} ? 'active-link'">🔍 Quality</a>
+
+        <a th:href="@{/maintenance-page}"
+           th:classappend="${activePage == 'maintenance'} ? 'active-link'">🔧 Maintenance</a>
+    </div>
+
+</div>
+
+</body>
+</html>
