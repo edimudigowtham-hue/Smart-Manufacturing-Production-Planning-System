@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+<div th:replace="fragments/sidebar :: sidebar('maintenance')"></div>
+<div class="content">
+
+    <h1 class="text-primary mb-4">🔧 Maintenance Management</h1>
+
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">Create Work Order</div>
+        <div class="card-body">
+
+            <form th:action="@{/maintenance/create}" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">Machine ID</label>
+                    <input type="number" name="machineId" class="form-control" placeholder="Enter Machine ID" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Maintenance Type</label>
+                    <select name="maintenanceType" class="form-select" required>
+                        <option value="">Select Type</option>
+                        <option value="PREVENTIVE">PREVENTIVE</option>
+                        <option value="BREAKDOWN">BREAKDOWN</option>
+                        <option value="CALIBRATION">CALIBRATION</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Scheduled Date</label>
+                    <input type="date" name="scheduledDate" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Completion Date</label>
+                    <input type="date" name="completionDate" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Work Order</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-warning text-dark">Assign Technician</div>
+        <div class="card-body">
+
+            <form th:action="@{/maintenance/assign}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Work Order ID</label>
+                    <input type="number" name="id" class="form-control" placeholder="Work Order ID" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Technician Name</label>
+                    <input type="text" name="technician" class="form-control" placeholder="Technician Name" required>
+                </div>
+
+                <button type="submit" class="btn btn-warning text-dark">Assign</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-info text-white">Issue Spare Parts</div>
+        <div class="card-body">
+
+            <form th:action="@{/maintenance/spare}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Work Order ID</label>
+                    <input type="number" name="id" class="form-control" placeholder="Work Order ID" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Spare Parts</label>
+                    <input type="text" name="spareParts" class="form-control" placeholder="Spare Parts" required>
+                </div>
+
+                <button type="submit" class="btn btn-info text-white">Issue Spare</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-danger text-white">Close Work Order</div>
+        <div class="card-body">
+
+            <form th:action="@{/maintenance/close}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Work Order ID</label>
+                    <input type="number" name="id" class="form-control" placeholder="Work Order ID" required>
+                </div>
+
+                <button type="submit" class="btn btn-danger">Close Work Order</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-5">
+        <div class="card-header bg-dark text-white">Maintenance Work Orders</div>
+        <div class="card-body">
+
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Machine</th>
+                    <th>Type</th>
+                    <th>Scheduled</th>
+                    <th>Completion</th>
+                    <th>Technician</th>
+                    <th>Spare</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="w : ${orders}">
+                    <td th:text="${w.workOrderId}"></td>
+                    <td th:text="${w.machineId}"></td>
+                    <td th:text="${w.maintenanceType}"></td>
+                    <td th:text="${w.scheduledDate}"></td>
+                    <td th:text="${w.completionDate}"></td>
+                    <td th:text="${w.technician}"></td>
+                    <td th:text="${w.spareParts}"></td>
+                    <td>
+                            <span th:classappend="${w.workOrderStatus == 'CLOSED' ? 'bg-success' : (w.workOrderStatus == 'ASSIGNED' ? 'bg-warning text-dark' : 'bg-secondary')}"
+                                  class="badge"
+                                  th:text="${w.workOrderStatus}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
