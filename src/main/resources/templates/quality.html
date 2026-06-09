@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quality Inspection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+<div th:replace="fragments/sidebar :: sidebar('quality')"></div>
+<div class="content">
+
+    <h1 class="text-primary mb-4">🔍 Quality Inspection</h1>
+
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">Record Inspection</div>
+        <div class="card-body">
+
+            <form th:action="@{/quality/inspect}" method="post">
+                <div class="mb-3">
+                    <input type="number" name="orderId" class="form-control" placeholder="Order ID" required>
+                </div>
+                <div class="mb-3">
+                    <input type="date" name="inspectionDate" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" name="sampleSize" class="form-control" placeholder="Sample Size" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" name="defectCount" class="form-control" placeholder="Defect Count" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Inspection</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3 mb-md-0">
+            <div class="card h-100 border-success shadow-sm">
+                <div class="card-header bg-success text-white">Approve Order</div>
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <form th:action="@{/quality/approve}" method="post">
+                        <div class="mb-3">
+                            <input type="number" name="id" class="form-control" placeholder="Inspection ID" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Approve</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 border-danger shadow-sm">
+                <div class="card-header bg-danger text-white">Reject Order</div>
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <form th:action="@{/quality/reject}" method="post">
+                        <div class="mb-3">
+                            <input type="number" name="id" class="form-control" placeholder="Inspection ID" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">Reject</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-5">
+        <div class="card-header bg-dark text-white">Inspection Records</div>
+        <div class="card-body">
+
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Order ID</th>
+                    <th>Sample Size</th>
+                    <th>Defects</th>
+                    <th>Result</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="q : ${inspections}">
+                    <td th:text="${q.inspectionId}"></td>
+                    <td th:text="${q.orderId}"></td>
+                    <td th:text="${q.sampleSize}"></td>
+                    <td th:text="${q.defectCount}"></td>
+                    <td>
+                            <span th:classappend="${q.inspectionResult == 'APPROVED' ? 'bg-success' : (q.inspectionResult == 'REJECTED' ? 'bg-danger' : 'bg-info')}"
+                                  class="badge"
+                                  th:text="${q.inspectionResult}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
