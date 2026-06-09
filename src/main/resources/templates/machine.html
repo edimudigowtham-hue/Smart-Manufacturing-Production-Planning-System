@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Machine Monitoring</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+<div th:replace="fragments/sidebar :: sidebar('machine')"></div>
+<div class="content">
+
+    <h1 class="text-primary mb-4">⚙️ Machine Monitoring</h1>
+
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">Record Runtime</div>
+                <div class="card-body">
+                    <form th:action="@{/machine/runtime}" method="post">
+                        <div class="mb-2">
+                            <input type="number" name="machineId" class="form-control" placeholder="Machine ID" required>
+                        </div>
+                        <div class="mb-2">
+                            <input type="date" name="logDate" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <input type="number" step="0.1" name="runtimeHours" class="form-control" placeholder="Runtime Hours" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 mt-2">Record Runtime</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-danger text-white">Log Downtime</div>
+                <div class="card-body">
+                    <form th:action="@{/machine/downtime}" method="post">
+                        <div class="mb-2">
+                            <input type="number" name="machineId" class="form-control" placeholder="Machine ID" required>
+                        </div>
+                        <div class="mb-2">
+                            <input type="date" name="logDate" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <input type="number" step="0.1" name="downtimeHours" class="form-control" placeholder="Downtime Hours" required>
+                        </div>
+                        <div class="mb-2">
+                            <input type="text" name="downtimeReason" class="form-control" placeholder="Reason (e.g. Maintenance)">
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100 mt-2">Log Downtime</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">Machine Logs</div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Machine ID</th>
+                    <th>Date</th>
+                    <th>Runtime (Hrs)</th>
+                    <th>Downtime (Hrs)</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="m : ${logs}">
+                    <td th:text="${m.logId}"></td>
+                    <td th:text="${m.machineId}"></td>
+                    <td th:text="${m.logDate}"></td>
+                    <td th:text="${m.runtimeHours}"></td>
+                    <td th:text="${m.downtimeHours}"></td>
+                    <td>
+                        <span class="badge bg-primary" th:text="${m.machineStatus}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <a th:href="@{/machine/oee}" class="btn btn-info text-white">📊 View OEE Analytics</a>
+    </div>
+
+</div>
+
+</body>
+</html>
