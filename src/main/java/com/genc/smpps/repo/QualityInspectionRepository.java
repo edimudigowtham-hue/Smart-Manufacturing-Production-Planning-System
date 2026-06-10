@@ -1,7 +1,7 @@
 package com.genc.smpps.repo;
 
-import com.genc.smpps.model.QualityInspection;
 import org.springframework.data.jpa.repository.JpaRepository;
+import com.genc.smpps.model.QualityInspection;
 
-public interface QualityInspectionRepository{
+public interface QualityInspectionRepository extends JpaRepository<QualityInspection, Integer> {
 }
