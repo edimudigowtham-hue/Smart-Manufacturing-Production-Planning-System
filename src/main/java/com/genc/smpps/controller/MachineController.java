@@ -1,12 +1,12 @@
 package com.genc.smpps.controller;
 
-import com.genc.smpps.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.genc.smpps.model.MachineLog;
+import com.genc.smpps.service.MachineService;
 
 @Controller
 @RequestMapping("/machine")
@@ -36,11 +36,4 @@ public class MachineController {
         return "redirect:/machine/page";
     }
 
-    // OEE
-    @GetMapping("/oee")
-    public String oee(Model model) {
-        String result = service.getMachineOee();
-        model.addAttribute("oeeResult", result);
-        return "machine-oee";
-    }
 }

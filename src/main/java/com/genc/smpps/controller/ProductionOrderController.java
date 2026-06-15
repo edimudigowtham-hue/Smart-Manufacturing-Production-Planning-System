@@ -12,6 +12,14 @@ import com.genc.smpps.service.ProductionOrderService;
 @Controller
 @RequestMapping("/orders")
 public class ProductionOrderController {
+    @Autowired
+    private ProductionOrderService service;
+
+    @PostMapping("/createProductionOrder")
+    public String createOrder(@ModelAttribute ProductionOrder order) {
+        service.createProductionOrder(order);
+        return "redirect:/orders-page";
+    }
 
     @Autowired
     private ProductionOrderService service;
