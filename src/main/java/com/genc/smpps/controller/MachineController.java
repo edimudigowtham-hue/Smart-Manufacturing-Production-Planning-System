@@ -36,4 +36,12 @@ public class MachineController {
         return "redirect:/machine/page";
     }
 
+        // OEE
+    @GetMapping("/oee")
+    public String oee(Model model) {
+        String result = service.getMachineOee();
+        model.addAttribute("oeeResult", result);
+        return "machine-oee";
+    }
+
 }
