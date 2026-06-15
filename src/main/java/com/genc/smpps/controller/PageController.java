@@ -8,16 +8,6 @@ import org.springframework.ui.Model;
 
 @Controller
 public class PageController {
-    @Autowired
-    private ProductMasterService productService;
-    @Autowired
-    private ProductionOrderService productionOrderService;
-    @Autowired
-    private MachineService machineService;
-    @Autowired
-    private QualityService qualityService;
-    @Autowired
-    private MaintenanceService maintenanceService;
 
     @Autowired
     private ProductMasterService productService;
@@ -40,11 +30,6 @@ public class PageController {
         model.addAttribute("maintenanceCount", maintenanceService.getAllWorkOrders().size());
 
         return "index";
-    }
-    @GetMapping("/products-page")
-    public String products(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
-        return "product"; // loads product.html
     }
 
     @GetMapping("/orders-page")
@@ -72,13 +57,4 @@ public class PageController {
         return "maintenance";
     }
 
-        return "index";
-    }
-
-
-    @GetMapping("/maintenance-page")
-    public String maintenancePage(Model model) {
-        model.addAttribute("orders", maintenanceService.getAllWorkOrders());
-        return "maintenance";
-    }
 }
