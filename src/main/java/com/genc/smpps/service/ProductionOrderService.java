@@ -36,12 +36,12 @@ public class ProductionOrderService {
         return repo.findAll();
     }
 
-    // Schedule Work Center (PDF - mock)
+    // Schedule Work Center
     public String scheduleWorkCenter() {
         return " Work center scheduled successfully";
     }
 
-    // Get Order Progress (Improved)
+    // Get Order Progress
     public String getOrderProgress(int id) {
         ProductionOrder order = repo.findById(id).orElse(null);
 
