@@ -28,4 +28,22 @@ public class ProductMasterService {
     public List<FinishedProduct> getAllProducts() {
         return repo.findAll();
     }
+
+    // Placeholder methods (from PDF)
+    public String addBomComponent() {
+        return "Component added (mock)";
+    }
+
+    public FinishedProduct getProductStructure(int id) {
+        return repo.findById(id).orElse(null);
+    }
+    // Delete
+    public void deleteProduct(int id) {
+        repo.deleteById(id);
+    }
+
+    // Get product by ID
+    public FinishedProduct getProductById(int id) {
+        return repo.findById(id).orElse(null);
+    }
 }

@@ -2,7 +2,6 @@ package com.genc.smpps.model;
 
 import jakarta.persistence.*;
 
-
 @Entity
 public class ProductionOrder {
 

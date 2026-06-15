@@ -20,7 +20,6 @@ public class ProductMasterController {
         service.createProduct(product);
         return "redirect:/products-page";
     }
-
     @PostMapping("/updateBom")
     public String updateBom(@RequestParam int productId,
                             @RequestParam String bomVersion) {
@@ -28,7 +27,6 @@ public class ProductMasterController {
         service.updateBomVersion(productId, bomVersion);
         return "redirect:/products-page";
     }
-
     @PutMapping("/updateBomVersion/{id}/{version}")
     public FinishedProduct updateBomVersion(@PathVariable int id, @PathVariable String version) {
         return service.updateBomVersion(id, version);
@@ -38,4 +36,31 @@ public class ProductMasterController {
     public List<FinishedProduct> getProducts() {
         return service.getAllProducts();
     }
+
+    @GetMapping("/structure/{id}")
+    public String getProductStructure(@PathVariable int id, Model model) {
+        model.addAttribute("product", service.getProductById(id));
+        return "product-structure";
+    }
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable int id) {
+        service.deleteProduct(id);
+        return "redirect:/products-page";
+    }
+    @GetMapping("/edit/{id}")
+    public String editProduct(@PathVariable int id, Model model) {
+        model.addAttribute("product", service.getProductById(id));
+        return "edit-product";
+    }
+    @PostMapping("/update")
+    public String updateProduct(@ModelAttribute FinishedProduct product) {
+        service.createProduct(product);
+        return "redirect:/products-page";
+    }
+    @GetMapping("/addComponent")
+    @ResponseBody
+    public String addComponent() {
+        return service.addBomComponent();
+    }
+
 }

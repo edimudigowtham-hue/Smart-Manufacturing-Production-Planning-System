@@ -25,5 +25,24 @@ public class MachineService {
         log.setMachineStatus("BREAKDOWN");
         return repo.save(log);
     }
-    
+
+    public String getMachineOee() {
+        List<MachineLog> logs = repo.findAll();
+        double totalRuntime = 0;
+        double totalDowntime = 0;
+        for (MachineLog log : logs) {
+            totalRuntime += log.getRuntimeHours();
+            totalDowntime += log.getDowntimeHours();
+        }
+        if ((totalRuntime + totalDowntime) == 0) {
+            return "No data available to calculate OEE";
+        }
+        double availability = totalRuntime / (totalRuntime + totalDowntime);
+        double oee = availability * 100;
+        return "OEE = " + String.format("%.2f", oee) + " %";
+    }
+    // getMachineStatus()
+    public List<MachineLog> getAllLogs() {
+        return repo.findAll();
+    }
 }
