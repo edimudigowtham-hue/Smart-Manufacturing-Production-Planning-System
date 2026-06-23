@@ -17,7 +17,7 @@ public class QualityService {
     // recordInspection + defect handling
     public QualityInspection recordInspection(QualityInspection q) {
 
-        // Inspection logic
+        // Inspection logic (PDF requirement)
         if (q.getDefectCount() == 0) {
             q.setInspectionResult("PASS");
         } else if (q.getDefectCount() <= 3) {
