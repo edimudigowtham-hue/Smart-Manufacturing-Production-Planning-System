@@ -1,0 +1,93 @@
+package com.genc.smpps.model;
+
+/**
+ * Lightweight view object holding the true OEE figures for a single machine.
+ * <p>
+ * OEE = Availability x Performance x Quality, where:
+ * <ul>
+ *   <li>Availability = runtime / (runtime + downtime)</li>
+ *   <li>Performance  = (idealCycleTime * totalPieces) / runtime</li>
+ *   <li>Quality      = goodPieces / totalPieces</li>
+ * </ul>
+ * All percentage fields are stored on a 0-100 scale.
+ */
+public class MachineOee {
+
+    private final int machineId;
+    private final double totalRuntime;
+    private final double totalDowntime;
+    private final long totalPieces;
+    private final long goodPieces;
+    private final double availability;
+    private final double performance;
+    private final double quality;
+    private final double oee;
+
+    public MachineOee(int machineId, double totalRuntime, double totalDowntime,
+                      long totalPieces, long goodPieces,
+                      double availability, double performance, double quality, double oee) {
+        this.machineId = machineId;
+        this.totalRuntime = totalRuntime;
+        this.totalDowntime = totalDowntime;
+        this.totalPieces = totalPieces;
+        this.goodPieces = goodPieces;
+        this.availability = availability;
+        this.performance = performance;
+        this.quality = quality;
+        this.oee = oee;
+    }
+
+    public int getMachineId() {
+        return machineId;
+    }
+
+    public double getTotalRuntime() {
+        return totalRuntime;
+    }
+
+    public double getTotalDowntime() {
+        return totalDowntime;
+    }
+
+    public long getTotalPieces() {
+        return totalPieces;
+    }
+
+    public long getGoodPieces() {
+        return goodPieces;
+    }
+
+    public double getAvailability() {
+        return availability;
+    }
+
+    public double getPerformance() {
+        return performance;
+    }
+
+    public double getQuality() {
+        return quality;
+    }
+
+    public double getOee() {
+        return oee;
+    }
+
+    public String getAvailabilityFormatted() {
+        return String.format("%.2f %%", availability);
+    }
+
+    public String getPerformanceFormatted() {
+        return String.format("%.2f %%", performance);
+    }
+
+    public String getQualityFormatted() {
+        return String.format("%.2f %%", quality);
+    }
+
+    public String getOeeFormatted() {
+        return String.format("%.2f %%", oee);
+    }
+}
+
+ 
