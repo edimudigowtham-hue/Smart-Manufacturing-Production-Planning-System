@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Order</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body class="bg-light">
+<div th:replace="fragments/sidebar :: sidebar('edit-order')"></div>
+<div class="content">
+
+    <h2 class="text-primary mb-4">✏️ Edit Order</h2>
+
+    <div class="card p-4 shadow-sm mb-3">
+        <form th:action="@{/orders/update}" method="post">
+
+            <input type="hidden" name="orderId" th:value="${order.orderId}">
+
+            <div class="mb-3">
+                <label class="form-label">Product ID</label>
+                <input type="number" name="productId" th:value="${order.productId}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Planned Quantity</label>
+                <input type="number" name="plannedQuantity" th:value="${order.plannedQuantity}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Produced Quantity</label>
+                <input type="number" name="producedQuantity" th:value="${order.producedQuantity}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Start Date</label>
+                <input type="date" name="startDate" th:value="${order.startDate}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">End Date</label>
+                <input type="date" name="endDate" th:value="${order.endDate}" class="form-control">
+            </div>
+
+            <input type="hidden" name="orderStatus" th:value="${order.orderStatus}">
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success me-2">Update Order</button>
+                <a th:href="@{/orders-page}" class="btn btn-secondary">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -2,10 +2,13 @@ package com.genc.smpps.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 import com.genc.smpps.model.QualityInspection;
 import com.genc.smpps.service.QualityService;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,21 +24,24 @@ public class QualityController {
         return service.getAllInspections();
     }
 
-    // Record inspection
+    // Record inspection with validation
     @PostMapping("/inspect")
-    public QualityInspection inspect(@RequestBody QualityInspection q) {
-        return service.recordInspection(q);
+    public ResponseEntity<?> inspect(@RequestBody @Valid QualityInspection q, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+        return ResponseEntity.ok(service.recordInspection(q));
     }
 
     // Approve batch
     @PutMapping("/approve/{id}")
-    public String approve(@PathVariable int id) {
-        return service.approveBatch(id);
+    public ResponseEntity<String> approve(@PathVariable int id) {
+        return ResponseEntity.ok(service.approveBatch(id));
     }
 
     // Reject batch
     @PutMapping("/reject/{id}")
-    public String reject(@PathVariable int id) {
-        return service.rejectBatch(id);
+    public ResponseEntity<String> reject(@PathVariable int id) {
+        return ResponseEntity.ok(service.rejectBatch(id));
     }
 }
