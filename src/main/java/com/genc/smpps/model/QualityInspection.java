@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
 
 @Entity
 public class QualityInspection {
@@ -12,15 +15,20 @@ public class QualityInspection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int inspectionId;
 
-    private int orderId;
-    private String inspectionDate;
-    private int sampleSize;
-    private int defectCount;
-    private String inspectionResult; // PASS, FAIL, REWORK
+    @NotNull(message = "Order ID is required")
+    private Integer orderId;
 
-    private String defectType;
-    private String defectDescription;
-    private String severity;
+    @NotBlank(message = "Inspection date is required")
+    private String inspectionDate;
+
+    @Min(value = 1, message = "Sample size must be at least 1")
+    private int sampleSize;
+
+    @Min(value = 0, message = "Defect count cannot be negative")
+    private int defectCount;
+
+    @NotBlank(message = "Result is required")
+    private String inspectionResult; // PASS, FAIL, REWORK
 
     public int getInspectionId() {
         return inspectionId;
@@ -30,11 +38,11 @@ public class QualityInspection {
         this.inspectionId = inspectionId;
     }
 
-    public int getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
@@ -68,29 +76,5 @@ public class QualityInspection {
 
     public void setInspectionResult(String inspectionResult) {
         this.inspectionResult = inspectionResult;
-    }
-
-    public String getDefectType() {
-        return defectType;
-    }
-
-    public void setDefectType(String defectType) {
-        this.defectType = defectType;
-    }
-
-    public String getDefectDescription() {
-        return defectDescription;
-    }
-
-    public void setDefectDescription(String defectDescription) {
-        this.defectDescription = defectDescription;
-    }
-
-    public String getSeverity() {
-        return severity;
-    }
-
-    public void setSeverity(String severity) {
-        this.severity = severity;
     }
 }
