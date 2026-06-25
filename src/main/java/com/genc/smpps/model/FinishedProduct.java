@@ -13,7 +13,9 @@ public class FinishedProduct {
     private String productName;
     private String bomVersion;
     private double standardCost;
-    private String productStatus; // ACTIVE, INACTIVE, PHASED_OUT
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus productStatus; // ACTIVE, INACTIVE, PHASED_OUT
 
     // Getters and Setters
     public int getProductId() { return productId; }
@@ -31,6 +33,11 @@ public class FinishedProduct {
     public double getStandardCost() { return standardCost; }
     public void setStandardCost(double standardCost) { this.standardCost = standardCost; }
 
-    public String getProductStatus() { return productStatus; }
-    public void setProductStatus(String productStatus) { this.productStatus = productStatus; }
+    public ProductStatus getProductStatus() {
+        return productStatus;
+    }
+
+    public void setProductStatus(ProductStatus productStatus) {
+        this.productStatus = productStatus;
+    }
 }
