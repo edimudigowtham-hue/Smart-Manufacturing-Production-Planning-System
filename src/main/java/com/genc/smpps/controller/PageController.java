@@ -32,6 +32,12 @@ public class PageController {
         return "index";
     }
 
+    @GetMapping("/products-page")
+    public String products(Model model) {
+        model.addAttribute("products", productService.getAllProducts());
+        return "product";
+    }
+
     @GetMapping("/orders-page")
     public String orders(Model model) {
         model.addAttribute("orders", productionOrderService.getAllOrders());
