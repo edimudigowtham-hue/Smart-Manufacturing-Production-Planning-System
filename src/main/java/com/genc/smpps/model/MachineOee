@@ -1,16 +1,5 @@
 package com.genc.smpps.model;
 
-/**
- * Lightweight view object holding the true OEE figures for a single machine.
- * <p>
- * OEE = Availability x Performance x Quality, where:
- * <ul>
- *   <li>Availability = runtime / (runtime + downtime)</li>
- *   <li>Performance  = (idealCycleTime * totalPieces) / runtime</li>
- *   <li>Quality      = goodPieces / totalPieces</li>
- * </ul>
- * All percentage fields are stored on a 0-100 scale.
- */
 public class MachineOee {
 
     private final int machineId;
