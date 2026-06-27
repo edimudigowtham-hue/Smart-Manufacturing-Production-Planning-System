@@ -17,31 +17,45 @@
         <div class="card-header bg-primary text-white">Create Work Order</div>
         <div class="card-body">
 
-            <form th:action="@{/maintenance/create}" method="post">
+            <form th:action="@{/maintenance/create}" th:object="${workOrder}" method="post">
+
+                <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                    Please correct the highlighted fields and try again.
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">Machine ID</label>
-                    <input type="number" name="machineId" class="form-control" placeholder="Enter Machine ID" required>
+                    <input type="number" th:field="*{machineId}" class="form-control" placeholder="Enter Machine ID" required
+                           th:classappend="${#fields.hasErrors('machineId')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('machineId')}" th:errors="*{machineId}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Maintenance Type</label>
-                    <select name="maintenanceType" class="form-select" required>
+                    <select th:field="*{maintenanceType}" class="form-select" required
+                            th:classappend="${#fields.hasErrors('maintenanceType')} ? ' is-invalid' : ''">
                         <option value="">Select Type</option>
                         <option value="PREVENTIVE">PREVENTIVE</option>
                         <option value="BREAKDOWN">BREAKDOWN</option>
                         <option value="CALIBRATION">CALIBRATION</option>
                     </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('maintenanceType')}" th:errors="*{maintenanceType}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Scheduled Date</label>
-                    <input type="date" name="scheduledDate" class="form-control" required>
+                    <input type="date" th:field="*{scheduledDate}" class="form-control" required
+                           th:classappend="${#fields.hasErrors('scheduledDate')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('scheduledDate')}" th:errors="*{scheduledDate}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Completion Date</label>
-                    <input type="date" name="completionDate" class="form-control">
+                    <input type="date" th:field="*{completionDate}" class="form-control"
+                           th:classappend="${#fields.hasErrors('completionDate')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('completionDate')}" th:errors="*{completionDate}"></div>
+                    <div class="text-danger mt-1 small" th:if="${#fields.hasErrors('completionDateAfterScheduledDate')}"
+                         th:errors="*{completionDateAfterScheduledDate}"></div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Create Work Order</button>
@@ -54,15 +68,22 @@
         <div class="card-header bg-warning text-dark">Assign Technician</div>
         <div class="card-body">
 
-            <form th:action="@{/maintenance/assign}" method="post">
+            <form th:action="@{/maintenance/assign}" th:object="${assignForm}" method="post">
+                <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                    Please correct the highlighted fields and try again.
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Work Order ID</label>
-                    <input type="number" name="id" class="form-control" placeholder="Work Order ID" required>
+                    <input type="number" th:field="*{workOrderId}" class="form-control" placeholder="Work Order ID" required
+                           th:classappend="${#fields.hasErrors('workOrderId')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('workOrderId')}" th:errors="*{workOrderId}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Technician Name</label>
-                    <input type="text" name="technician" class="form-control" placeholder="Technician Name" required>
+                    <input type="text" th:field="*{technician}" class="form-control" placeholder="Technician Name" required
+                           th:classappend="${#fields.hasErrors('technician')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('technician')}" th:errors="*{technician}"></div>
                 </div>
 
                 <button type="submit" class="btn btn-warning text-dark">Assign</button>
@@ -75,15 +96,22 @@
         <div class="card-header bg-info text-white">Issue Spare Parts</div>
         <div class="card-body">
 
-            <form th:action="@{/maintenance/spare}" method="post">
+            <form th:action="@{/maintenance/spare}" th:object="${spareForm}" method="post">
+                <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                    Please correct the highlighted fields and try again.
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Work Order ID</label>
-                    <input type="number" name="id" class="form-control" placeholder="Work Order ID" required>
+                    <input type="number" th:field="*{workOrderId}" class="form-control" placeholder="Work Order ID" required
+                           th:classappend="${#fields.hasErrors('workOrderId')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('workOrderId')}" th:errors="*{workOrderId}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Spare Parts</label>
-                    <input type="text" name="spareParts" class="form-control" placeholder="Spare Parts" required>
+                    <input type="text" th:field="*{spareParts}" class="form-control" placeholder="Spare Parts" required
+                           th:classappend="${#fields.hasErrors('spareParts')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('spareParts')}" th:errors="*{spareParts}"></div>
                 </div>
 
                 <button type="submit" class="btn btn-info text-white">Issue Spare</button>
@@ -96,10 +124,15 @@
         <div class="card-header bg-danger text-white">Close Work Order</div>
         <div class="card-body">
 
-            <form th:action="@{/maintenance/close}" method="post">
+            <form th:action="@{/maintenance/close}" th:object="${closeForm}" method="post">
+                <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                    Please correct the highlighted fields and try again.
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Work Order ID</label>
-                    <input type="number" name="id" class="form-control" placeholder="Work Order ID" required>
+                    <input type="number" th:field="*{workOrderId}" class="form-control" placeholder="Work Order ID" required
+                           th:classappend="${#fields.hasErrors('workOrderId')} ? ' is-invalid' : ''">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('workOrderId')}" th:errors="*{workOrderId}"></div>
                 </div>
 
                 <button type="submit" class="btn btn-danger">Close Work Order</button>
@@ -130,12 +163,12 @@
                     <td th:text="${w.workOrderId}"></td>
                     <td th:text="${w.machineId}"></td>
                     <td th:text="${w.maintenanceType}"></td>
-                    <td th:text="${w.scheduledDate}"></td>
-                    <td th:text="${w.completionDate}"></td>
+                    <td th:text="${w.scheduledDate != null ? #temporals.format(w.scheduledDate, 'yyyy-MM-dd') : ''}"></td>
+                    <td th:text="${w.completionDate != null ? #temporals.format(w.completionDate, 'yyyy-MM-dd') : ''}"></td>
                     <td th:text="${w.technician}"></td>
                     <td th:text="${w.spareParts}"></td>
                     <td>
-                            <span th:classappend="${w.workOrderStatus == 'CLOSED' ? 'bg-success' : (w.workOrderStatus == 'ASSIGNED' ? 'bg-warning text-dark' : 'bg-secondary')}"
+                            <span th:classappend="${w.workOrderStatus == 'COMPLETED' ? 'bg-success' : (w.workOrderStatus == 'IN_PROGRESS' ? 'bg-warning text-dark' : 'bg-secondary')}"
                                   class="badge"
                                   th:text="${w.workOrderStatus}"></span>
                     </td>
