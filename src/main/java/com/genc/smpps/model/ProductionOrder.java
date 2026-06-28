@@ -1,5 +1,7 @@
 package com.genc.smpps.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,6 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductionOrder {
 
     @Id
@@ -25,6 +28,7 @@ public class ProductionOrder {
     private Integer orderId;
 
     @NotNull(message = "Product is required")
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     private FinishedProduct product;
@@ -45,28 +49,13 @@ public class ProductionOrder {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate endDate;
 
-    @NotNull(message = "Order status is required")
     @Enumerated(EnumType.STRING)
-    public enum OrderStatus {
-        PLANNED,
-        RELEASED,
-        IN_PROGRESS,
-        COMPLETED,
-        CANCELLED
-    }
+    private OrderStatus orderStatus;
 
 
     @AssertTrue(message = "Product ID must be greater than 0")
     public boolean isProductReferenceValid() {
         return getProductId() != null && getProductId() > 0;
-    }
-
-    @AssertTrue(message = "Produced quantity cannot be greater than planned quantity")
-    public boolean isProducedQuantityValid() {
-        if (plannedQuantity == null || producedQuantity == null) {
-            return true;
-        }
-        return producedQuantity <= plannedQuantity;
     }
 
     @AssertTrue(message = "End date cannot be before start date")
@@ -75,6 +64,14 @@ public class ProductionOrder {
             return true;
         }
         return !endDate.isBefore(startDate);
+    }
+
+    @AssertTrue(message = "Produced quantity cannot exceed planned quantity")
+    public boolean isProducedQuantityWithinPlan() {
+        if (plannedQuantity == null || producedQuantity == null) {
+            return true;
+        }
+        return producedQuantity <= plannedQuantity;
     }
 
 
