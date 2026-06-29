@@ -23,6 +23,21 @@ public class MaintenanceController {
         this.service = service;
     }
 
+    private void populateMaintenancePageModel(Model model) {
+        if (!model.containsAttribute("workOrder")) {
+            model.addAttribute("workOrder", new MaintenanceWorkOrder());
+        }
+        if (!model.containsAttribute("assignForm")) {
+            model.addAttribute("assignForm", new MaintenanceWorkOrder());
+        }
+        if (!model.containsAttribute("spareForm")) {
+            model.addAttribute("spareForm", new MaintenanceWorkOrder());
+        }
+        if (!model.containsAttribute("closeForm")) {
+            model.addAttribute("closeForm", new MaintenanceWorkOrder());
+        }
+        model.addAttribute("orders", service.getAllWorkOrders());
+    }
     // Load Page
     @GetMapping("/page")
     public String maintenancePage(Model model) {
@@ -114,19 +129,5 @@ public class MaintenanceController {
         return "redirect:/maintenance/page";
     }
 
-    private void populateMaintenancePageModel(Model model) {
-        if (!model.containsAttribute("workOrder")) {
-            model.addAttribute("workOrder", new MaintenanceWorkOrder());
-        }
-        if (!model.containsAttribute("assignForm")) {
-            model.addAttribute("assignForm", new MaintenanceWorkOrder());
-        }
-        if (!model.containsAttribute("spareForm")) {
-            model.addAttribute("spareForm", new MaintenanceWorkOrder());
-        }
-        if (!model.containsAttribute("closeForm")) {
-            model.addAttribute("closeForm", new MaintenanceWorkOrder());
-        }
-        model.addAttribute("orders", service.getAllWorkOrders());
-    }
+
 }
